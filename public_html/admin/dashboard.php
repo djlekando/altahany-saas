@@ -1,45 +1,58 @@
 <?php
 session_start();
+require_once __DIR__ . '/core/app.php';
 
-if(!isset($_SESSION['admin'])){
-header("Location: login.php");
-exit;
-}
+auth();
+
+/* LIVE DATA */
+$bookings = countTable("bookings");
+$media    = countTable("media");
+$invoices = countTable("invoices");
+$quotes   = countTable("quotations");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-<title>ALTATAHANY CONTROL CENTER</title>
+<meta charset="UTF-8">
+<title>ALTATAHANY SaaS Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
 body{background:#0b0b0b;color:#fff;font-family:system-ui}
-a{display:block;color:#fff;margin:10px}
-.box{background:#151515;padding:10px;margin:10px}
+.sidebar{width:220px;position:fixed;right:0;height:100vh;background:#111;padding:15px}
+.main{margin-right:220px;padding:20px}
+.cardx{background:#151515;padding:15px;border-radius:10px;margin:10px}
+.gold{color:#d4af37}
+a{color:#fff;text-decoration:none;display:block;padding:8px}
+a:hover{background:#d4af37;color:#000}
 </style>
+
 </head>
 
 <body>
 
-<h2>CONTROL PANEL</h2>
-
-<div class="box">
-<a href="?p=bookings">Bookings</a>
-<a href="?p=media">Media</a>
-<a href="?p=invoices">Invoices</a>
-<a href="?p=quotes">Quotes</a>
-<a href="?p=crm">CRM</a>
+<div class="sidebar">
+<h3 class="gold">ALTATAHANY</h3>
+<a href="dashboard.php">Dashboard</a>
+<a href="bookings/index.php">Bookings</a>
+<a href="media/index.php">Media</a>
+<a href="invoices/index.php">Invoices</a>
+<a href="quotes/index.php">Quotes</a>
 <a href="logout.php">Logout</a>
 </div>
 
-<?php
-$page=$_GET['p'] ?? '';
+<div class="main">
 
-if($page=="bookings") echo "<div class='box'>BOOKINGS MODULE</div>";
-if($page=="media") echo "<div class='box'>MEDIA MODULE</div>";
-if($page=="invoices") echo "<div class='box'>INVOICES MODULE</div>";
-if($page=="quotes") echo "<div class='box'>QUOTES MODULE</div>";
-if($page=="crm") echo "<div class='box'>CRM MODULE</div>";
-?>
+<h2 class="gold">Live Dashboard</h2>
+
+<div class="cardx">Bookings: <?= $bookings ?></div>
+<div class="cardx">Media: <?= $media ?></div>
+<div class="cardx">Invoices: <?= $invoices ?></div>
+<div class="cardx">Quotes: <?= $quotes ?></div>
+
+</div>
 
 </body>
 </html>
